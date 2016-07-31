@@ -34,3 +34,6 @@ config :coherence,
   logged_out_url: "/",
   opts: [:trackable, :authenticatable]
 # %% End Coherence Configuration %%
+
+config :whatwasit,
+  repo: WhatwasitDemo.Repo

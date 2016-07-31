@@ -1,7 +1,7 @@
 defmodule WhatwasitDemo.User do
   use WhatwasitDemo.Web, :model
   use Coherence.Schema
-  use Whatwasit
+  # use Whatwasit
 
   schema "users" do
     field :name, :string
@@ -17,6 +17,6 @@ defmodule WhatwasitDemo.User do
     |> validate_required([:name, :email])
     |> unique_constraint(:email)
     |> validate_coherence(params)
-    |> prepare_version(opts)
+    # |> prepare_version(opts)
   end
 end

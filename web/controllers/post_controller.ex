@@ -39,7 +39,7 @@ defmodule WhatwasitDemo.PostController do
 
   def update(conn, %{"id" => id, "post" => post_params}) do
     post = Repo.get!(Post, id)
-    changeset = Post.changeset(post, post_params)
+    changeset = Post.changeset(post, post_params, whodoneit(conn))
 
     case Repo.update(changeset) do
       {:ok, post} ->
@@ -56,10 +56,19 @@ defmodule WhatwasitDemo.PostController do
 
     # Here we use delete! (with a bang) because we expect
     # it to always work (and if it does not, it will raise).
-    Repo.delete!(post)
+    changeset = Repo.get!(Post, id)
+    |> Post.changeset(%{}, whodoneit(conn))
+
+    Repo.delete!(changeset)
 
     conn
     |> put_flash(:info, "Post deleted successfully.")
     |> redirect(to: post_path(conn, :index))
   end
+
+  defp whodoneit(conn) do
+    user = Coherence.current_user(conn)
+    [whodoneit: user , whodoneit_name: user.name]
+  end
+
 end
